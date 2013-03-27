@@ -1,0 +1,3 @@
+#!/bin/bash
+python menuparser.py
+python eatND.py

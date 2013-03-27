@@ -18,7 +18,7 @@ register("NsQ7yd5aoQX35SMBmUjVwFA6rUjctED5CrjH1VcI","9uIgnDxZPMQD2skEqVXFXrGf2K8
 class Menu(Object): # daily menu
 	pass
 
-class AllItems(Object): # history of all items served
+class All(Object): # history of all items served
 	pass
 
 # open up the url, parse it with BeautifulSoup
@@ -47,23 +47,10 @@ for line in str(soup).split('\n'):
 		# save each item to the database
 		for i in items:
 			if i!='':
+				itemList = All.Query.all().where(item=i.lower())
+				matches = [e for e in itemList]
+				if len(matches)==0:
+					newItem=All(item=i.lower())
+					newItem.save()
 				item=Menu(meal=m.lower(),item=i.lower())
 				item.save()
-
-"""
-favorites = ["cheese pizza","large shells","poop","taco meat"]
-served={}
-for f in favorites:
-	item = Menu.Query.all().where(item=f)
-	for i in item:
-		if i.item not in served.keys():
-			served[i.item.encode('ascii')]=[i.meal.encode('ascii')]
-		else:
-			served[i.item.encode('ascii')].append(i.meal.encode('ascii'))
-
-for k,v in served.iteritems():
-	print k+" will be served for",
-	for m in v:
-		print m+',',
-	print
-"""
