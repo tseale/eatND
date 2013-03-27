@@ -28,7 +28,11 @@ page = urllib2.urlopen(url)
 soup = BeautifulSoup(page.read(),"html.parser")
 
 # delete all items currently on the menu
+# need to delete twice! it looks like Query.all() has a return limit of 100 entries...
 print "Deleting Old Menu..."
+oldMenu = Menu.Query.all()
+for item in oldMenu:
+	item.delete()
 oldMenu = Menu.Query.all()
 for item in oldMenu:
 	item.delete()
